@@ -14,8 +14,8 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 import static java.nio.file.StandardWatchEventKinds.ENTRY_CREATE;
-import static java.nio.file.StandardWatchEventKinds.ENTRY_MODIFY;
 import static java.nio.file.StandardWatchEventKinds.ENTRY_DELETE;
+import static java.nio.file.StandardWatchEventKinds.ENTRY_MODIFY;
 
 @Log
 public class DirectoryWatcherTest {
@@ -31,13 +31,6 @@ public class DirectoryWatcherTest {
         }};
     }
 
-    @Test
-    public void givenDirectoryPath_whenFileCreated_thenPerformOnCreateEvent() throws Exception {
-        try (DirectoryWatcher watcher = new DirectoryWatcher("/home/wladischlau/IdeaProjects/mirea/7s/csad_pract1/src/test/resources", handlers)) {
-            watcher.watch(); // TODO: Make solid tests
-        }
-    }
-
     public static void onCreateEvent(WatchEvent<?> event) {
         log.info("Event kind: ON_CREATE. File affected: " + event.context());
     }
@@ -48,5 +41,16 @@ public class DirectoryWatcherTest {
 
     public static void onDeleteEvent(WatchEvent<?> event) {
         log.info("Event kind: ON_DELETE. File affected: " + event.context());
+    }
+
+    @Test
+    public void givenDirectoryPath_whenFileCreated_thenPerformOnCreateEvent() throws Exception {
+        try (
+                DirectoryWatcher watcher = new DirectoryWatcher(
+                        "/home/wladischlau/IdeaProjects/mirea/7s/csad_pract1/src/test/resources", handlers
+                )
+        ) {
+            watcher.watch();
+        }
     }
 }
