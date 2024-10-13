@@ -10,4 +10,13 @@
     </parent>
     <artifactId>common</artifactId>
     <version>${project.version}</version>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-commons</artifactId>
+            <version>${spring-boot.version}</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
 </project>

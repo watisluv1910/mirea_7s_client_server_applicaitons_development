@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en-US" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Car Management</title>
+</head>
+<body>
+<h1>Car Management</h1>
+
+<form th:action="@{/cars}" method="post">
+    <div>
+        <label for="brand">Brand:</label>
+        <input type="text" id="brand" name="brand" placeholder="Brand" required/>
+    </div>
+    <div>
+        <label for="model">Model:</label>
+        <input type="text" id="model" name="model" placeholder="Model" required/>
+    </div>
+    <div>
+        <label for="price">Price:</label>
+        <input type="text" id="price" name="price" placeholder="Price" required/>
+    </div>
+    <div>
+        <button type="submit">Add Car</button>
+    </div>
+</form>
+
+<div>
+    <button onclick="window.location.href='/customers'">Customers</button>
+    <button onclick="window.location.href='/sale-offers'">Sale Offers</button>
+</div>
+
+<h2>All Cars</h2>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Brand</th>
+        <th>Model</th>
+        <th>Price</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="car : ${cars}">
+        <td th:text="${car.id}">ID</td>
+        <td th:text="${car.brand}">Brand</td>
+        <td th:text="${car.model}">Model</td>
+        <td th:text="${car.price}">Price</td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

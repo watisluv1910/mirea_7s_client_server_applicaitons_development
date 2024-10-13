@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en-US" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Car Sale Offers</title>
+</head>
+<body>
+<h1>Submit Sale Offers</h1>
+<form th:action="@{/submit-sale-offers}" method="post">
+    <div>
+        <label for="carId">Car ID:</label>
+        <input type="text" id="carId" name="carId" placeholder="Car ID" required/>
+    </div>
+    <div>
+        <label for="clientId">Client ID:</label>
+        <input type="text" id="clientId" name="clientId" placeholder="Client ID" required/>
+    </div>
+    <div>
+        <label for="offeredPrice">Offered Price:</label>
+        <input type="text" id="offeredPrice" name="offeredPrice" placeholder="Offered Price" required/>
+    </div>
+    <div>
+        <button type="submit">Submit Offer</button>
+    </div>
+</form>
+
+<div>
+    <button onclick="window.location.href='/cars'">Cars</button>
+    <button onclick="window.location.href='/customers'">Customers</button>
+</div>
+
+<h2>Sale Offer Responses</h2>
+<table>
+    <thead>
+    <tr>
+        <th>Car ID</th>
+        <th>Offer Approved</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="offerResponse : ${responses}">
+        <td th:text="${offerResponse.carId}">Car ID</td>
+        <td th:text="${offerResponse.approved}">Approved</td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
