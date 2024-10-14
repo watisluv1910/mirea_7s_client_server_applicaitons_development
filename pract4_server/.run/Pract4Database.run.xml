@@ -7,15 +7,23 @@
         <option name="envVars">
           <list>
             <DockerEnvVarImpl>
+              <option name="name" value="PGDATA" />
+              <option name="value" value="/var/lib/postgresql/data/pgdata" />
+            </DockerEnvVarImpl>
+            <DockerEnvVarImpl>
               <option name="name" value="POSTGRES_DB" />
               <option name="value" value="dealership" />
             </DockerEnvVarImpl>
             <DockerEnvVarImpl>
-              <option name="name" value="POSTGRES_USER" />
-              <option name="value" value="admin" />
+              <option name="name" value="POSTGRES_INITDB_ARGS" />
+              <option name="value" value="--auth-host=scram-sha-256" />
             </DockerEnvVarImpl>
             <DockerEnvVarImpl>
               <option name="name" value="POSTGRES_PASSWORD" />
+              <option name="value" value="admin" />
+            </DockerEnvVarImpl>
+            <DockerEnvVarImpl>
+              <option name="name" value="POSTGRES_USER" />
               <option name="value" value="admin" />
             </DockerEnvVarImpl>
           </list>
@@ -23,7 +31,7 @@
         <option name="portBindings">
           <list>
             <DockerPortBindingImpl>
-              <option name="containerPort" value="5422" />
+              <option name="containerPort" value="5432" />
               <option name="hostPort" value="5433" />
             </DockerPortBindingImpl>
           </list>
