@@ -1,4 +1,4 @@
-INSERT INTO cars (brand, model, price)
+INSERT INTO car (brand, model, price)
 VALUES ('Toyota', 'Camry', 30000.00),
        ('Honda', 'Accord', 28000.00),
        ('BMW', 'X5', 60000.00),
@@ -6,7 +6,7 @@ VALUES ('Toyota', 'Camry', 30000.00),
        ('Audi', 'A4', 40000.00),
        ('Ford', 'Mustang', 35000.00);
 
-INSERT INTO clients (name, phone)
+INSERT INTO customer (name, phone)
 VALUES ('John Doe', '555-1234'),
        ('Jane Smith', '555-5678'),
        ('Robert Johnson', '555-9012'),
@@ -14,7 +14,7 @@ VALUES ('John Doe', '555-1234'),
        ('Michael Brown', '555-7890'),
        ('Sarah Wilson', '555-4321');
 
-INSERT INTO sales (car_id, client_id, sale_price, sale_date)
+INSERT INTO sale (car_id, customer_id, sale_price, sale_date)
 VALUES (1, 1, 29000.00, null),
        (2, 2, 27000.00, null),
        (3, 3, 59000.00, null),

@@ -28,8 +28,7 @@ public class CustomerController {
     }
 
     @PostMapping("/customers")
-    public Mono<String> addCustomer(String name, String phone) {
-        Customer customer = Customer.builder().name(name).phone(phone).build();
+    public Mono<String> addCustomer(Customer customer) {
         return customerClient.add(customer).then(Mono.just("redirect:/customers"));
     }
 }

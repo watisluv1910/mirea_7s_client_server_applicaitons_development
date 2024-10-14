@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.math.BigDecimal;
-
 @Controller
 public class CarController {
 
@@ -30,8 +28,7 @@ public class CarController {
     }
 
     @PostMapping("/cars")
-    public Mono<String> addCar(String brand, String model, String price) {
-        Car car = new Car(null, brand, model, new BigDecimal(price));
+    public Mono<String> addCar(Car car) {
         return carClient.add(car).then(Mono.just("redirect:/cars"));
     }
 }

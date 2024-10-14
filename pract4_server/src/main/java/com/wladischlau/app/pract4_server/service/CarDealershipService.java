@@ -5,6 +5,7 @@ import com.wladischlau.app.pract4.dto.SaleOffer;
 import com.wladischlau.app.pract4.dto.SaleOfferResponse;
 import com.wladischlau.app.pract4_server.repo.CarRepository;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Mono;
 
 import java.math.BigDecimal;
 import java.util.Optional;
@@ -20,23 +21,29 @@ public class CarDealershipService {
         this.carRepository = carRepository;
     }
 
-    public SaleOfferResponse handleSaleOffer(SaleOffer offer) {
-        BigDecimal offeredPrice = offer.offeredPrice();
-
-        BigDecimal discount = customerService.calculateDiscount(offer.clientId())
+    public Mono<SaleOfferResponse> handleSaleOffer(SaleOffer offer) {
+        Mono<BigDecimal> discountMono = customerService.calculateDiscount(offer.customerId())
                 .map(BigDecimal::valueOf)
-                .blockOptional()
-                .orElseThrow(() -> new RuntimeException("Client not found"));
+                .switchIfEmpty(Mono.error(new RuntimeException("Client not found")));
 
-        Optional<BigDecimal> defaultPrice = carRepository.findById(offer.carId())
+        Mono<Optional<BigDecimal>> priceMono = carRepository.findById(offer.carId())
                 .map(Car::price)
-                .blockOptional();
+                .map(Optional::of)
+                .defaultIfEmpty(Optional.empty());
 
-        boolean isApproved = false; // Can't approve sale if default price isn't set
-        if (defaultPrice.isPresent()) {
-            isApproved = offeredPrice.compareTo(defaultPrice.get().multiply(discount)) > 0;
-        }
+        return Mono.zip(discountMono, priceMono)
+                .flatMap(tuple -> {
+                    BigDecimal discount = tuple.getT1();
+                    Optional<BigDecimal> defaultPrice = tuple.getT2();
 
-        return new SaleOfferResponse(offer.carId(), isApproved);
+                    boolean isApproved = false;
+                    if (defaultPrice.isPresent()) {
+                        BigDecimal offeredPrice = offer.offeredPrice();
+                        BigDecimal calculatedPrice = defaultPrice.get().multiply(BigDecimal.ONE.subtract(discount));
+                        isApproved = offeredPrice.compareTo(calculatedPrice) >= 0;
+                    }
+
+                    return Mono.just(new SaleOfferResponse(offer.carId(), isApproved));
+                });
     }
 }

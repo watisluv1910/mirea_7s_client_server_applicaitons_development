@@ -20,6 +20,6 @@ public class CarDealershipController {
 
     @MessageMapping("placeOffers")
     public Flux<SaleOfferResponse> handlePriceOffers(Flux<SaleOffer> offers) {
-        return offers.map(dealershipService::handleSaleOffer);
+        return offers.flatMap(dealershipService::handleSaleOffer);
     }
 }

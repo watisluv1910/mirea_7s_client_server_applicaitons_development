@@ -29,11 +29,8 @@ public class CarDealershipController {
     }
 
     @PostMapping("/submit-sale-offers")
-    public Mono<String> submitSaleOffer(Long carId, Long clientId, String offeredPrice, Model model) {
-        SaleOffer saleOffer = new SaleOffer(carId, clientId, new BigDecimal(offeredPrice));
-
+    public Mono<String> submitSaleOffer(SaleOffer saleOffer, Model model) {
         Flux<SaleOfferResponse> responses = carDealershipClient.sendSaleOffers(Flux.just(saleOffer));
-
         return responses.collectList().flatMap(saleOfferResponses -> {
             model.addAttribute("responses", saleOfferResponses);
             return Mono.just("sale-offers"); // Return the view after the responses are available
