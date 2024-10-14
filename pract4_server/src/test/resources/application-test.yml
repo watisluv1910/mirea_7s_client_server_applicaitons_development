@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: pract4_server
+  flyway:
+    locations: classpath:db/migration/test
+  rsocket:
+    server:
+      port: 7001
+      transport: tcp
+
+logging:
+  level:
+    root: debug
