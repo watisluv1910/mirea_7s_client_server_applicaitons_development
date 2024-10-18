@@ -1,0 +1,24 @@
+server:
+  tomcat:
+    max-swallow-size: -1
+
+spring:
+  application:
+    name: pract5
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      authentication-database: admin
+      username: dev
+      password: dev
+      gridfs:
+        database: pract5-db
+  servlet:
+    multipart:
+      max-file-size: 1GB
+      max-request-size: 1GB
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en-US" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>File Upload</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<div class="container">
+    <h1>Upload a File</h1>
+
+    <!--/*@thymesVar id="message" type="java"*/-->
+    <div th:if="${message} != null" class="alert alert-success alert-notification" role="alert" id="alertMessage">
+        <p th:text="${message}"></p>
+    </div>
+
+    <form method="post" enctype="multipart/form-data" th:action="@{/upload}">
+        <div class="form-group">
+            <label for="file">Choose file to upload</label>
+            <input type="file" class="form-control" id="file" name="file" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Upload</button>
+    </form>
+
+    <hr>
+
+    <h2>Uploaded Files</h2>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>Filename</th>
+            <th class="actions-column">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="file : ${files}">
+            <td th:text="${file}"></td>
+            <td class="actions-column">
+                <form id="downloadFileForm" th:action="@{'/' + ${file}}" method="get" th:method="get">
+                    <button type="submit" class="btn btn-success btn-sm btn-action">Download</button>
+                </form>
+                <form id="deleteFileForm" th:action="@{'/' + ${file}}" method="post" th:method="delete">
+                    <button type="submit" class="btn btn-danger btn-sm btn-action">Delete</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<script>
+    window.addEventListener('DOMContentLoaded', (_) => {
+        const alertMessage = document.getElementById('alertMessage');
+        if (alertMessage) {
+            setTimeout(() => {
+                alertMessage.classList.add('fade-out');
+            }, 5000);
+
+            setTimeout(() => {
+                alertMessage.style.display = 'none';
+            }, 7000);
+        }
+    });
+
+    $('#downloadFileForm').submit(function(e) {
+        e.preventDefault();
+        $.ajax({
+            type: 'GET',
+            url: '@{'/' + ${file}}',
+            data: $(this).serialize()
+        });
+    });
+</script>
+
+</body>
+</html>

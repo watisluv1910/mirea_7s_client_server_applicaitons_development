@@ -1,0 +1,63 @@
+x-defaults: &defaults
+  image: csad_pract5_uploader:1.0.0
+  environment:
+    SERVER_PORT: 80
+    SPRING_DATA_MONGODB_HOST: mongo
+    SPRING_DATA_MONGODB_PORT: 27017
+    SPRING_DATA_MONGODB_USERNAME: dev
+    SPRING_DATA_MONGODB_PASSWORD: dev
+  depends_on:
+    - mongo
+    - uploader_base
+
+services:
+  mongo:
+    image: mongo:latest
+    container_name: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: dev
+      MONGO_INITDB_ROOT_PASSWORD: dev
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./pract5/initdb.js:/docker-entrypoint-initdb.d/initdb.js:ro
+      - mongo-data:/data/db
+
+  # Shared image build process
+  uploader_base:
+    build:
+      context: .
+      dockerfile: pract5/Dockerfile
+    image: csad_pract5_uploader:1.0.0
+
+  uploader1:
+    <<: *defaults
+    container_name: uploader_1
+
+  uploader2:
+    <<: *defaults
+    container_name: uploader_2
+
+  uploader3:
+    <<: *defaults
+    container_name: uploader_3
+
+  uploader4:
+    <<: *defaults
+    container_name: uploader_4
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    depends_on:
+      - uploader1
+      - uploader2
+      - uploader3
+      - uploader4
+    ports:
+      - "80:80"
+    volumes:
+      - ./pract5/nginx.conf:/etc/nginx/nginx.conf:ro
+
+volumes:
+  mongo-data:

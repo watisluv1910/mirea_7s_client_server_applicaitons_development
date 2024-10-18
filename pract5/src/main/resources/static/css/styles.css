@@ -1,0 +1,22 @@
+.actions-column {
+    width: 20%;
+    text-align: center;
+}
+
+.btn-action {
+    margin: 5px;
+}
+
+.alert-notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    max-width: 300px;
+    opacity: 1;
+    transition: opacity 2s ease-out;
+}
+
+.fade-out {
+    opacity: 0;
+}

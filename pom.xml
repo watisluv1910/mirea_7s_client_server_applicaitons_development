@@ -16,18 +16,20 @@
         <module>pract3</module>
         <module>pract4_client</module>
         <module>pract4_server</module>
+        <module>pract5</module>
     </modules>
 
     <properties>
         <project.version>1.0.0</project.version>
 
         <java.version>22</java.version>
-        <maven.compiler.source>22</maven.compiler.source>
-        <maven.compiler.target>22</maven.compiler.target>
+        <maven.compiler.release>22</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
         <maven-surefire-plugin.version>3.5.1</maven-surefire-plugin.version>
         <maven-failsafe-plugin.version>3.5.1</maven-failsafe-plugin.version>
+        <maven-jar-plugin.version>3.4.2</maven-jar-plugin.version>
+        <maven-assembly-plugin.version>3.7.1</maven-assembly-plugin.version>
 
         <spring.version>6.1.13</spring.version>
         <spring-boot.version>3.3.4</spring-boot.version>
@@ -37,6 +39,8 @@
         <jakarta-el.version>6.0.1</jakarta-el.version>
         <hibernate-validator.version>8.0.1.Final</hibernate-validator.version>
 
+        <spring-data-mongodb.version>4.3.4</spring-data-mongodb.version>
+        <mongodb-driver-sync.version>5.0.1</mongodb-driver-sync.version>
         <jdbc-postgresql.version>42.7.4</jdbc-postgresql.version>
         <r2dbc-postgresql.version>1.0.6.RELEASE</r2dbc-postgresql.version>
         <flyway.version>10.19.0</flyway.version>
@@ -113,4 +117,14 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>pract5</id>
+            <modules>
+                <module>common</module>
+                <module>pract5</module>
+            </modules>
+        </profile>
+    </profiles>
 </project>
